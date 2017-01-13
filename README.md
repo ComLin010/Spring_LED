@@ -14,9 +14,5 @@
 
  * GPIO0这个引脚在烧程序的时候必须接GND（接低电平），烧完程序后想要进行应用的话，必须将这个引脚拉高或者悬空。
 
-<<<<<<< HEAD
 
                                                                                           Spring of Life_LED
-=======
-   Spring of Life_LED
->>>>>>> 8e31e57af61fcf2afb1f5b68d48dd58393f6a069
