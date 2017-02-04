@@ -55,8 +55,14 @@ void loop() // run over and over
       //          Serial.print(data.length()); 获取字符串长度
       //      Serial.print(data.substring(data.indexOf(":") + 1, data.length()));从符号下标加1位截取
       String sge = data.substring(data.indexOf(":") + 1, data.length());
-      if (sge == "on") {
-        Serial.print("\nok");
+      if (sge == "On") {
+        Serial.print("\nOn");
+      }
+      else if (sge == "Off") {
+        Serial.print("\nOff");
+      }
+      else {
+        Serial.print("\nNot");
       }
     }
   }
