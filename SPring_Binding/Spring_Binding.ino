@@ -1,17 +1,21 @@
 #include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 #include <String.h>
-#define PIN 6
+#define PINONE 6
+#define PINTWO 5
 uint32_t c;
 uint32_t d;
 uint32_t f;
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(30, PIN, NEO_GRB + NEO_KHZ800);//灯带初始化
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(30, PINONE, NEO_GRB + NEO_KHZ800);//灯带初始化
+Adafruit_NeoPixel striptwo = Adafruit_NeoPixel(30, PINTWO, NEO_GRB + NEO_KHZ800);
 SoftwareSerial mySerial(10, 11); // RX, TX 
 
 void setup()
 {
   strip.begin();
   strip.show();
+  striptwo.begin();
+  striptwo.show();
   // 打开端口
   Serial.begin(9600);
   while (!Serial) {
@@ -34,6 +38,8 @@ void setup()
 
 void loop() // run over and over
 {
+   light(1,2);
+   lighttwo(1,2);
   //Wifi模块
   String data = "";
   if (mySerial.available() > 0) {
@@ -54,6 +60,7 @@ void loop() // run over and over
       //          Serial.print(data.length()); 获取字符串长度
       //      Serial.print(data.substring(data.indexOf(":") + 1, data.length()));从符号下标加1位截取
       String sge = data.substring(data.indexOf(":") + 1, data.length());
+//      sge.substring(sge.indexOf(",") + 1,sge.length())
       if (sge == "On") {
         light(1, 4);
         Serial.print("\nOn");
@@ -77,6 +84,16 @@ void light(int st, int le) {
     strip.setPixelColor(i, c);
   }
   strip.show();
+  delay(5);
+
+}
+void lighttwo(int st, int le) {
+  st = st - 1;
+  c = striptwo.Color(255, 255, 255);
+  for (int i = st; i < le; i++) {
+    striptwo.setPixelColor(i, c);
+  }
+  striptwo.show();
   delay(5);
 
 }
