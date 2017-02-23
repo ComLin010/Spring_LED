@@ -8,7 +8,7 @@ uint32_t d;
 uint32_t f;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(30, PINONE, NEO_GRB + NEO_KHZ800);//灯带初始化
 Adafruit_NeoPixel striptwo = Adafruit_NeoPixel(30, PINTWO, NEO_GRB + NEO_KHZ800);
-SoftwareSerial mySerial(10, 11); // RX, TX 
+SoftwareSerial mySerial(10, 11); // RX, TX
 
 void setup()
 {
@@ -38,8 +38,6 @@ void setup()
 
 void loop() // run over and over
 {
-   light(1,2);
-   lighttwo(1,2);
   //Wifi模块
   String data = "";
   if (mySerial.available() > 0) {
@@ -60,9 +58,9 @@ void loop() // run over and over
       //          Serial.print(data.length()); 获取字符串长度
       //      Serial.print(data.substring(data.indexOf(":") + 1, data.length()));从符号下标加1位截取
       String sge = data.substring(data.indexOf(":") + 1, data.length());
-//      sge.substring(sge.indexOf(",") + 1,sge.length())
+      //      sge.substring(sge.indexOf(",") + 1,sge.length())
       if (sge == "On") {
-        light(1, 4);
+        light(1, 4, 1);
         Serial.print("\nOn");
       }
       else if (sge == "Off") {
@@ -77,26 +75,36 @@ void loop() // run over and over
 }
 //LED模块
 //亮灯效果
-void light(int st, int le) {
+void light(int st, int le , int num) {
   st = st - 1;
   c = strip.Color(255, 255, 255);
-  for (int i = st; i < le; i++) {
-    strip.setPixelColor(i, c);
-  }
-  strip.show();
-  delay(5);
-
-}
-void lighttwo(int st, int le) {
-  st = st - 1;
   c = striptwo.Color(255, 255, 255);
   for (int i = st; i < le; i++) {
-    striptwo.setPixelColor(i, c);
+    if (num == 1) {
+      strip.setPixelColor(i, c);
+    }
+    else if (num == 2) {
+      striptwo.setPixelColor(i, c);
+    }
   }
-  striptwo.show();
+  strip.show();
+  switch (num) {
+    case 1: strip.show(); break;
+    case 2: striptwo.show(); break;
+  }
   delay(5);
 
 }
+//void lighttwo(int st, int le) {
+//  st = st - 1;
+//  c = striptwo.Color(255, 255, 255);
+//  for (int i = st; i < le; i++) {
+//    striptwo.setPixelColor(i, c);
+//  }
+//  striptwo.show();
+//  delay(5);
+//
+//}
 //熄灯效果
 void black(int st, int le) {
   st = st - 1;
